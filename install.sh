@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# auto-skill install script (fallback — prefer /plugin install)
+# auto-optimize-skills install script (fallback — prefer /plugin install)
 # Usage: curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/install.sh | bash
 
 set -euo pipefail
 
-PLUGIN_NAME="auto-skill"
+PLUGIN_NAME="auto-optimize-skills"
 PLUGIN_REPO="https://github.com/CatVinci-Studio/AutoSkill_Claude"
 INSTALL_DIR="$HOME/.claude/plugins/$PLUGIN_NAME"
-DATA_DIR="$HOME/.local/share/auto-skill"
+DATA_DIR="$HOME/.local/share/auto-optimize-skills"
 
 echo "Installing $PLUGIN_NAME..."
 echo ""
@@ -55,7 +55,7 @@ echo "✓ Data directory created at $DATA_DIR"
 echo ""
 echo "Now register the plugin in Claude Code:"
 echo "  /plugin marketplace add CatVinci-Studio/AutoSkill_Claude"
-echo "  /plugin install auto-skill@auto-skill"
+echo "  /plugin install auto-optimize-skills@auto-optimize-skills"
 echo ""
 echo "To uninstall:"
-echo "  /plugin uninstall auto-skill@auto-skill"
+echo "  /plugin uninstall auto-optimize-skills@auto-optimize-skills"

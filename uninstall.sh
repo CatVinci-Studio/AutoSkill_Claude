@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# auto-skill uninstall script (fallback — prefer /plugin uninstall)
+# auto-optimize-skills uninstall script (fallback — prefer /plugin uninstall)
 # Usage: curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/uninstall.sh | bash
 
 set -euo pipefail
 
-PLUGIN_NAME="auto-skill"
+PLUGIN_NAME="auto-optimize-skills"
 INSTALL_DIR="$HOME/.claude/plugins/$PLUGIN_NAME"
 
 echo "Uninstalling $PLUGIN_NAME..."
@@ -19,8 +19,8 @@ else
 fi
 
 echo ""
-echo "auto-skill uninstalled."
+echo "auto-optimize-skills uninstalled."
 echo ""
 echo "The following were kept (delete manually if no longer needed):"
-echo "  ~/.local/share/auto-skill/    — usage data and queue"
+echo "  ~/.local/share/auto-optimize-skills/    — usage data and queue"
 echo "  ~/.claude/skills-backup/      — skill backups"

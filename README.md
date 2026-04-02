@@ -1,8 +1,28 @@
-# 🧠 auto-skill
+# 🧠 auto-optimize-skills
 
 > A Claude Code plugin that **silently watches** how you work, then helps you build better skills — automatically.
 
-No interruptions. No manual tracking. Just use Claude normally, and let auto-skill learn from you.
+No interruptions. No manual tracking. Just use Claude normally, and let auto-optimize-skills learn from you.
+
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Platform](https://img.shields.io/badge/platform-Claude%20Code-blueviolet)
+![Shell](https://img.shields.io/badge/language-bash-green)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
+
+---
+
+## 📖 Table of Contents
+
+- [✨ What It Does](#-what-it-does)
+- [📦 Install](#-install)
+- [🔄 How It Works](#-how-it-works)
+- [⚡ Commands](#-commands)
+  - [/optimize-skill](#optimize-skill)
+  - [/new-skill](#new-skill)
+- [⚙️ Configuration](#️-configuration)
+- [🗂️ File Structure](#️-file-structure)
+- [⚠️ Known Limitations](#️-known-limitations)
+- [🤝 Contributing](#-contributing)
 
 ---
 
@@ -12,7 +32,7 @@ No interruptions. No manual tracking. Just use Claude normally, and let auto-ski
 - 📦 **Accumulates** usage data across sessions
 - 🔔 **Notifies** you when there's enough data to act on
 - ⚡ **Optimizes** existing skills based on real behavior signals
-- 🪄 **Creates** new skills from workflows you repeat manually
+- 🪄 **Creates** new skills from conversations or repeated workflows
 - 💾 **Backs up** every skill before modifying it
 
 ---
@@ -21,7 +41,7 @@ No interruptions. No manual tracking. Just use Claude normally, and let auto-ski
 
 ```
 /plugin marketplace add CatVinci-Studio/AutoSkill_Claude
-/plugin install auto-skill@auto-skill
+/plugin install auto-optimize-skills@auto-optimize-skills
 ```
 
 Restart Claude Code after installation.
@@ -38,7 +58,7 @@ curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/ma
 ## 🗑️ Uninstall
 
 ```
-/plugin uninstall auto-skill@auto-skill
+/plugin uninstall auto-optimize-skills@auto-optimize-skills
 ```
 
 <details>
@@ -52,7 +72,7 @@ curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/ma
 
 > Data and backups are kept after uninstall. Delete manually if no longer needed:
 > ```bash
-> rm -rf ~/.local/share/auto-skill
+> rm -rf ~/.local/share/auto-optimize-skills
 > rm -rf ~/.claude/skills-backup
 > ```
 
@@ -70,7 +90,7 @@ curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/ma
 
 ### The queue
 
-All observations persist in `~/.local/share/auto-skill/queue.json`:
+All observations persist in `~/.local/share/auto-optimize-skills/queue.json`:
 
 ```json
 {
@@ -84,52 +104,44 @@ All observations persist in `~/.local/share/auto-skill/queue.json`:
 - **`to_optimize`** — skills that were used, candidates for improvement
 - **`to_create`** — prompts you typed 2+ times without a matching skill, candidates for new skills
 
-### Notification
+### 🔔 Notification
 
 When the queue hits the configured threshold, you'll see this at session start:
 
 ```
-autoSkill: 5 skill(s) ready to optimize, 2 new pattern(s) detected.
-Run /auto-optimize-skills when ready.
+auto-optimize-skills: 5 skill(s) ready to optimize, 2 new pattern(s) detected.
+Run /optimize-skill or /new-skill when ready.
 ```
 
 You decide when to act. No interruptions.
 
 ---
 
-## ⚡ Usage
+## ⚡ Commands
 
-Run `/auto-optimize-skills` at any point — **mid-session or after closing and reopening**.
+This plugin provides two skill commands:
 
-Claude reads both the historical queue (past sessions) and the current session's live data, then shows you:
+### `/optimize-skill`
+
+Improve existing skills based on real usage signals.
+
+Run it when you want to tune skills you've been using. Claude will:
+
+1. 📋 Load the list of skills pending optimization from the queue
+2. 📖 Read relevant session transcripts for each skill
+3. 🔍 Identify what needs improving (see signals below)
+4. 🖊️ Show you the proposed changes before writing anything
+5. 💾 Back up the original, then write the improved version
 
 ```
-【🔧 Optimize existing skills】
-  · arxiv        — used 4 times
-  · research-lit — used 2 times
+【🔧 Skills ready to optimize】
+  · arxiv        — found in 4 sessions
+  · research-lit — found in 2 sessions
 
-【✨ Suggested new skills】
-  · "find papers then summarize and export to Zotero" — seen 3 times
-
-How to proceed? [all / select / skip]
+Which skills should I optimize? [all / select / skip]
 ```
 
-For each skill you select, Claude will:
-
-1. 📖 Read the relevant session transcripts
-2. 🔍 Identify what could be improved (see signals below)
-3. 📋 Show you the proposed changes before writing anything
-4. 💾 Back up the original, then write the improved version
-
-For each new skill pattern, Claude will:
-
-1. 📝 Draft a new `SKILL.md` based on the observed workflow
-2. 🤝 Show you the draft and wait for your confirmation
-3. ✅ Write the new skill only after you approve
-
----
-
-## 🎯 What Gets Improved
+**🎯 What gets improved:**
 
 | 📡 Signal | 🛠️ What changes |
 |---|---|
@@ -137,20 +149,54 @@ For each new skill pattern, Claude will:
 | You corrected Claude after skill ran | Step instructions |
 | Skill used a tool not in `allowed-tools` | `allowed-tools` list |
 | You invoked the same skill multiple times in one session | Output completeness |
-| You repeated a workflow 2+ times with no matching skill | New skill created |
+
+---
+
+### `/new-skill`
+
+Create a new skill from three possible sources:
+
+**1. 💬 From this conversation** — capture the workflow you just did with Claude into a reusable skill.
+
+**2. 📊 From a detected pattern** — if you've repeated the same workflow 2+ times across sessions without a matching skill, Claude surfaces it as a candidate.
+
+**3. ✏️ Describe it yourself** — tell Claude what the skill should do and it drafts one for you.
+
+In all cases, Claude shows you a draft first and waits for your confirmation before writing anything.
+
+```
+【✨ Draft skill】
+
+name:          export-to-zotero
+description:   "Find academic papers and export to Zotero. Use when asked to find
+                papers, export citations, or run /export-to-zotero."
+allowed-tools: Bash, WebSearch, Read
+
+Steps:
+1. ...
+
+Write this? [yes / edit / cancel]
+```
+
+For each new skill pattern, Claude will:
+
+1. 📝 Draft a new `SKILL.md` based on the observed workflow
+2. 🤝 Show you the draft and wait for your confirmation
+3. ✅ Write the new skill only after you approve
+4. 🔁 Automatically add it to the optimize queue for future improvement
 
 ---
 
 ## ⚙️ Configuration
 
-Edit `~/.claude/plugins/auto-skill/config.json`:
+Edit `~/.claude/plugins/auto-optimize-skills/config.json`:
 
 ```json
 {
   "notify_after_skill_uses": 5,
   "notify_after_new_patterns": 2,
   "backup_dir": "~/.claude/skills-backup",
-  "data_dir": "~/.local/share/auto-skill"
+  "data_dir": "~/.local/share/auto-optimize-skills"
 }
 ```
 
@@ -164,27 +210,29 @@ Edit `~/.claude/plugins/auto-skill/config.json`:
 ## 🗂️ File Structure
 
 ```
-~/.claude/plugins/auto-skill/          ← plugin directory
+~/.claude/plugins/auto-optimize-skills/    ← plugin directory
 ├── .claude-plugin/
 │   └── plugin.json
-├── config.json                        ← thresholds and paths
+├── config.json                            ← thresholds and paths
 ├── hooks/
-│   ├── hooks.json                     ← registers all 3 hooks
+│   ├── hooks.json                         ← registers all 3 hooks
 │   └── scripts/
-│       ├── on_skill_use.sh            ← PostToolUse: record skill name
-│       ├── on_session_end.sh          ← SessionEnd: scan transcript
-│       └── on_session_start.sh        ← SessionStart: notify if ready
+│       ├── on_skill_use.sh                ← PostToolUse: record skill name
+│       ├── on_session_end.sh              ← SessionEnd: scan transcript
+│       └── on_session_start.sh            ← SessionStart: notify if ready
 └── skills/
-    └── auto-optimize-skills/
-        └── SKILL.md                   ← /auto-optimize-skills
+    ├── optimize-skill/
+    │   └── SKILL.md                       ← /optimize-skill
+    └── new-skill/
+        └── SKILL.md                       ← /new-skill
 
-~/.local/share/auto-skill/             ← runtime data
-├── queue.json                         ← pending optimizations & patterns
-├── history.json                       ← log of past optimizations
-├── transcripts.log                    ← paths of analyzed transcripts
-└── user_patterns.json                 ← prompt frequency tracker
+~/.local/share/auto-optimize-skills/       ← runtime data
+├── queue.json                             ← pending optimizations & patterns
+├── history.json                           ← log of past optimizations
+├── transcripts.log                        ← paths of analyzed transcripts
+└── user_patterns.json                     ← prompt frequency tracker
 
-~/.claude/skills-backup/               ← pre-modification backups
+~/.claude/skills-backup/                   ← pre-modification backups
 └── {timestamp}/
     └── {skill-name}/
         └── SKILL.md

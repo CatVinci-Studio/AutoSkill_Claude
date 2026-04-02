@@ -1,12 +1,12 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "auto-skill",
+  "name": "auto-optimize-skills",
   "owner": {
     "name": "CatVinci-Studio"
   },
   "plugins": [
     {
-      "name": "auto-skill",
+      "name": "auto-optimize-skills",
       "description": "Automatically capture skill usage and optimize or create skills based on behavior patterns",
       "version": "1.0.0",
       "source": "./"

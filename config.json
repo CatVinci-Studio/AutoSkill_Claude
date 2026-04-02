@@ -2,5 +2,5 @@
   "notify_after_skill_uses": 5,
   "notify_after_new_patterns": 2,
   "backup_dir": "~/.claude/skills-backup",
-  "data_dir": "~/.local/share/auto-skill"
+  "data_dir": "~/.local/share/auto-optimize-skills"
 }
