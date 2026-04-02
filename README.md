@@ -20,7 +20,7 @@ No interruptions. No manual tracking. Just use Claude normally, and let auto-ski
 ## 📦 Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/auto-skill/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/install.sh | bash
 ```
 
 Restart Claude Code after installation.
@@ -30,7 +30,7 @@ Restart Claude Code after installation.
 ## 🗑️ Uninstall
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/auto-skill/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/uninstall.sh | bash
 ```
 
 > Data and backups are kept after uninstall. Delete manually if no longer needed:
@@ -185,6 +185,6 @@ Edit `~/.claude/plugins/auto-skill/config.json`:
 
 ## 🤝 Contributing
 
-Issues and PRs welcome at [CatVinci-Studio/auto-skill](https://github.com/CatVinci-Studio/auto-skill).
+Issues and PRs welcome at [CatVinci-Studio/AutoSkill_Claude](https://github.com/CatVinci-Studio/AutoSkill_Claude).
 
 The `dev` branch contains work-in-progress features including a dedicated `skill-analyzer` sub-agent for deeper transcript analysis.
