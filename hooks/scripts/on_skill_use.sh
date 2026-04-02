@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-DATA_DIR="$HOME/.local/share/auto-optimize-skills"
+DATA_DIR="${CLAUDE_PLUGIN_DATA:-$HOME/.local/share/auto-optimize-skills}"
 FLAG_FILE="$DATA_DIR/.stop_flag"
 
 mkdir -p "$DATA_DIR"

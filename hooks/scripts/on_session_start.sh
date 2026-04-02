@@ -4,9 +4,9 @@
 
 set -euo pipefail
 
-DATA_DIR="$HOME/.local/share/auto-optimize-skills"
+DATA_DIR="${CLAUDE_PLUGIN_DATA:-$HOME/.local/share/auto-optimize-skills}"
 QUEUE="$DATA_DIR/queue.json"
-CONFIG="${CLAUDE_PLUGIN_ROOT:-}/config.json"
+CONFIG="${CLAUDE_PLUGIN_ROOT}/config.json"
 
 # No queue yet — nothing to notify
 [ -f "$QUEUE" ] || exit 0
