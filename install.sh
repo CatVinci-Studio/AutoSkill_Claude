@@ -5,7 +5,7 @@
 set -euo pipefail
 
 PLUGIN_NAME="auto-skill"
-PLUGIN_REPO="https://github.com/[USER]/auto-skill"   # TODO: fill in after hosting
+PLUGIN_REPO="https://github.com/CatVinci-Studio/auto-skill"
 INSTALL_DIR="$HOME/.claude/plugins/$PLUGIN_NAME"
 DATA_DIR="$HOME/.local/share/auto-skill"
 SETTINGS="$HOME/.claude/settings.json"
@@ -84,4 +84,4 @@ echo "Usage:"
 echo "  /auto-optimize-skills    — analyze and improve skills"
 echo ""
 echo "To uninstall:"
-echo "  curl -fsSL https://raw.githubusercontent.com/[USER]/auto-skill/main/uninstall.sh | bash"
+echo "  curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/auto-skill/main/uninstall.sh | bash"

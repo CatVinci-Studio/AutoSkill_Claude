@@ -5,7 +5,7 @@ A Claude Code plugin that silently observes your sessions, captures which skills
 ## Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/[USER]/auto-skill/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/auto-skill/main/install.sh | bash
 ```
 
 Restart Claude Code after installation.
@@ -13,7 +13,7 @@ Restart Claude Code after installation.
 ## Uninstall
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/[USER]/auto-skill/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/auto-skill/main/uninstall.sh | bash
 ```
 
 Data and backups are kept after uninstall. Delete manually if no longer needed:
