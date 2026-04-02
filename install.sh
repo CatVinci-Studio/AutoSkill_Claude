@@ -51,6 +51,15 @@ fi
 # --- Make scripts executable ---
 chmod +x "$INSTALL_DIR/hooks/scripts/"*.sh
 
+# --- Install skill to ~/.claude/skills ---
+SKILLS_DIR="$HOME/.claude/skills"
+mkdir -p "$SKILLS_DIR"
+for skill_dir in "$INSTALL_DIR/skills"/*/; do
+  skill_name="$(basename "$skill_dir")"
+  rm -rf "$SKILLS_DIR/$skill_name"
+  cp -r "$skill_dir" "$SKILLS_DIR/$skill_name"
+done
+
 # --- Register in installed_plugins.json ---
 mkdir -p "$(dirname "$INSTALLED")"
 
@@ -74,6 +83,7 @@ jq ".enabledPlugins[\"${PLUGIN_NAME}@local\"] = true" \
 
 # --- Done ---
 echo "✓ Plugin installed to $INSTALL_DIR"
+echo "✓ Skills installed to $SKILLS_DIR"
 echo "✓ Data directory created at $DATA_DIR"
 echo "✓ Registered in installed_plugins.json"
 echo "✓ Enabled in settings.json"

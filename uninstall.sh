@@ -6,6 +6,7 @@ set -euo pipefail
 
 PLUGIN_NAME="auto-skill"
 INSTALL_DIR="$HOME/.claude/plugins/$PLUGIN_NAME"
+SKILLS_DIR="$HOME/.claude/skills"
 SETTINGS="$HOME/.claude/settings.json"
 INSTALLED="$HOME/.claude/plugins/installed_plugins.json"
 
@@ -27,6 +28,17 @@ if [ -f "$INSTALLED" ]; then
   jq "del(.plugins[\"${PLUGIN_NAME}@local\"])" \
      "$INSTALLED" > "$INSTALLED.tmp" && mv "$INSTALLED.tmp" "$INSTALLED"
   echo "✓ Removed from installed_plugins.json"
+fi
+
+# --- Remove skills from ~/.claude/skills ---
+if [ -d "$INSTALL_DIR/skills" ]; then
+  for skill_dir in "$INSTALL_DIR/skills"/*/; do
+    skill_name="$(basename "$skill_dir")"
+    if [ -d "$SKILLS_DIR/$skill_name" ]; then
+      rm -rf "$SKILLS_DIR/$skill_name"
+      echo "✓ Removed skill: $skill_name"
+    fi
+  done
 fi
 
 # --- Remove plugin directory ---
