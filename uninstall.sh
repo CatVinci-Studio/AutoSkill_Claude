@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # auto-skill uninstall script
-# Usage: curl -fsSL https://raw.githubusercontent.com/[USER]/auto-skill/main/uninstall.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/uninstall.sh | bash
 
 set -euo pipefail
 

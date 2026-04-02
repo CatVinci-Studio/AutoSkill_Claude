@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # auto-skill install script
-# Usage: curl -fsSL https://raw.githubusercontent.com/[USER]/auto-skill/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/install.sh | bash
 
 set -euo pipefail
 
 PLUGIN_NAME="auto-skill"
-PLUGIN_REPO="https://github.com/CatVinci-Studio/auto-skill"
+PLUGIN_REPO="https://github.com/CatVinci-Studio/AutoSkill_Claude"
 INSTALL_DIR="$HOME/.claude/plugins/$PLUGIN_NAME"
 DATA_DIR="$HOME/.local/share/auto-skill"
 SETTINGS="$HOME/.claude/settings.json"
@@ -84,4 +84,4 @@ echo "Usage:"
 echo "  /auto-optimize-skills    — analyze and improve skills"
 echo ""
 echo "To uninstall:"
-echo "  curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/auto-skill/main/uninstall.sh | bash"
+echo "  curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/uninstall.sh | bash"
