@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # auto-skill install script
-# Usage: curl -fsSL https://raw.githubusercontent.com/[USER]/auto-skill/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/install.sh | bash
 
 set -euo pipefail
 
