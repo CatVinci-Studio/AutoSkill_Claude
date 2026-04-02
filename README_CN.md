@@ -19,19 +19,36 @@
 
 ## 📦 安装
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/install.sh | bash
+```
+/plugin marketplace add CatVinci-Studio/AutoSkill_Claude
+/plugin install auto-skill@auto-skill
 ```
 
 安装完成后重启 Claude Code 即可生效。
 
-**依赖：** `git`、`jq`
+<details>
+<summary>备选：通过脚本安装（需要 <code>git</code>、<code>jq</code>）</summary>
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/install.sh | bash
+```
+
+</details>
 
 ## 🗑️ 卸载
+
+```
+/plugin uninstall auto-skill@auto-skill
+```
+
+<details>
+<summary>备选：通过脚本卸载</summary>
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/uninstall.sh | bash
 ```
+
+</details>
 
 > 卸载后数据和备份会保留，如不需要可手动删除：
 > ```bash

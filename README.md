@@ -19,19 +19,36 @@ No interruptions. No manual tracking. Just use Claude normally, and let auto-ski
 
 ## 📦 Install
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/install.sh | bash
+```
+/plugin marketplace add CatVinci-Studio/AutoSkill_Claude
+/plugin install auto-skill@auto-skill
 ```
 
 Restart Claude Code after installation.
 
-**Requirements:** `git`, `jq`
+<details>
+<summary>Alternative: install via script (requires <code>git</code>, <code>jq</code>)</summary>
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/install.sh | bash
+```
+
+</details>
 
 ## 🗑️ Uninstall
+
+```
+/plugin uninstall auto-skill@auto-skill
+```
+
+<details>
+<summary>Alternative: uninstall via script</summary>
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/CatVinci-Studio/AutoSkill_Claude/main/uninstall.sh | bash
 ```
+
+</details>
 
 > Data and backups are kept after uninstall. Delete manually if no longer needed:
 > ```bash
