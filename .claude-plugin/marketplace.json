@@ -6,7 +6,6 @@
   "plugins": [
     {
       "name": "auto-skill",
-      "source": ".",
       "description": "Automatically capture skill usage and optimize or create skills based on behavior patterns",
       "version": "1.0.0"
     }
