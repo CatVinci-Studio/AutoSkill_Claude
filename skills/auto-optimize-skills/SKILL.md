@@ -41,14 +41,22 @@ Display the merged list clearly:
   · <skill-name>   — found in N sessions
   · ...
 
-【Suggested new skills】
+【Suggested new skills from patterns】
   · "<pattern description>" — detected N times
   · ...
 
-How to proceed? [all / select / skip]
+【Create a new skill from scratch】
+  · Describe any workflow you want to automate
+
+How to proceed? [all / select / skip / new]
 ```
 
-If both queue.json and .stop_flag are empty, inform the user: "No skill usage recorded yet. Use some skills first, then run /auto-optimize-skills."
+- `all` — process all optimizations and pattern-based creations
+- `select` — choose which items to handle
+- `skip` — do nothing this time
+- `new` — skip optimizations, go straight to creating a new skill from your description
+
+If both queue.json and .stop_flag are empty and the user didn't choose `new`, inform the user: "No skill usage recorded yet. Use some skills first, then run /auto-optimize-skills."
 
 Wait for user choice before continuing.
 
@@ -67,11 +75,36 @@ Read the most recent 3 transcripts and search for exchanges involving this skill
 - **Tool gaps**: Tool calls that occurred during skill execution but aren't in `allowed-tools`
 - **Repeated invocation**: Same skill called more than once in a single session
 
-### 3b. Read the current skill file
+### 3b. Locate and read the skill file
 
+First check if the skill exists as a local user skill:
 ```bash
-cat ~/.claude/skills/<skill-name>/SKILL.md
+ls ~/.claude/skills/<skill-name>/SKILL.md 2>/dev/null && echo "local" || echo "not found"
 ```
+
+If not found locally, search plugin/market directories:
+```bash
+find ~/.claude/plugins -name "SKILL.md" -path "*/<skill-name>/*" 2>/dev/null | head -5
+```
+
+**Case A — found locally at `~/.claude/skills/<skill-name>/SKILL.md`:**
+Read and proceed normally.
+
+**Case B — found inside a plugin/market directory:**
+Inform the user:
+> ⚠️ `<skill-name>` is a market/plugin skill (found at `<path>`). Editing it in-place would be overwritten on the next plugin update.
+> Fork it to your local skills first?
+
+If user confirms, fork it:
+```bash
+mkdir -p ~/.claude/skills/<skill-name>
+cp <market-path>/SKILL.md ~/.claude/skills/<skill-name>/SKILL.md
+echo "Forked to ~/.claude/skills/<skill-name>/SKILL.md"
+```
+Then proceed with optimization on the forked copy.
+
+**Case C — not found anywhere:**
+Inform the user that the skill file cannot be located and skip this skill.
 
 ### 3c. Backup original
 
@@ -131,6 +164,37 @@ After user confirms:
 mkdir -p ~/.claude/skills/<new-name>
 # Write ~/.claude/skills/<new-name>/SKILL.md
 ```
+
+### 4d. Create a new skill from user description
+
+Trigger this step when:
+- The user chose `new` in Step 2, OR
+- The user explicitly asks to create a new skill during this session
+
+Ask the user the following questions (can be answered all at once):
+1. **What does this skill do?** (one-sentence description)
+2. **What would trigger it?** (what phrases do you typically type to start this task?)
+3. **Any tools it needs?** (e.g. Bash, Read, Write, WebSearch — or leave blank to infer)
+
+Optionally, scan the most recent transcript for relevant context:
+```bash
+tail -5 ~/.local/share/auto-skill/transcripts.log
+```
+If a recent transcript shows a workflow matching the user's description, use those tool call sequences to inform the `allowed-tools` and steps.
+
+Draft a new skill and show it to the user for confirmation:
+- **name**: kebab-case, descriptive, based on what the user said
+- **description**: use the trigger phrases the user provided verbatim
+- **allowed-tools**: tools the user specified, plus any inferred from transcript context
+- **Steps**: derived from user description + observed tool sequence (if available)
+
+After user confirms (or edits), write the skill:
+```bash
+mkdir -p ~/.claude/skills/<new-name>
+# Write ~/.claude/skills/<new-name>/SKILL.md
+```
+
+Report: skill name, file path, and trigger phrases written to description.
 
 ---
 
