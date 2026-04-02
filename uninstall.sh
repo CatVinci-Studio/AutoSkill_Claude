@@ -18,8 +18,16 @@ command -v jq &>/dev/null || { echo "Error: jq not found"; exit 1; }
 
 # --- Remove from settings.json ---
 if [ -f "$SETTINGS" ]; then
-  jq "del(.enabledPlugins[\"${PLUGIN_NAME}@local\"])" \
-     "$SETTINGS" > "$SETTINGS.tmp" && mv "$SETTINGS.tmp" "$SETTINGS"
+  jq --arg dir "$INSTALL_DIR" --arg name "${PLUGIN_NAME}@local" '
+    del(.enabledPlugins[$name]) |
+    if .hooks then
+      .hooks |= with_entries(
+        .value |= map(select(.hooks | map(.command | contains($dir)) | any | not))
+      ) |
+      .hooks |= with_entries(select(.value | length > 0)) |
+      if (.hooks == {}) then del(.hooks) else . end
+    else . end
+  ' "$SETTINGS" > "$SETTINGS.tmp" && mv "$SETTINGS.tmp" "$SETTINGS"
   echo "✓ Removed from settings.json"
 fi
 

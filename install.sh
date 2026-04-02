@@ -60,6 +60,24 @@ for skill_dir in "$INSTALL_DIR/skills"/*/; do
   cp -r "$skill_dir" "$SKILLS_DIR/$skill_name"
 done
 
+# --- Register hooks in settings.json ---
+HOOKS_JSON=$(sed "s|\${CLAUDE_PLUGIN_ROOT}|$INSTALL_DIR|g" "$INSTALL_DIR/hooks/hooks.json")
+
+# Remove any existing auto-skill hooks (handles reinstall), then add new ones
+jq --argjson nh "$HOOKS_JSON" --arg dir "$INSTALL_DIR" '
+  if .hooks then
+    .hooks |= with_entries(
+      .value |= map(select(.hooks | map(.command | contains($dir)) | any | not))
+    ) |
+    .hooks |= with_entries(select(.value | length > 0)) |
+    if (.hooks == {}) then del(.hooks) else . end
+  else . end |
+  reduce ($nh.hooks | to_entries[]) as $e (
+    .;
+    .hooks[$e.key] = ((.hooks[$e.key] // []) + $e.value)
+  )
+' "$SETTINGS" > "$SETTINGS.tmp" && mv "$SETTINGS.tmp" "$SETTINGS"
+
 # --- Register in installed_plugins.json ---
 mkdir -p "$(dirname "$INSTALLED")"
 
@@ -85,6 +103,7 @@ jq ".enabledPlugins[\"${PLUGIN_NAME}@local\"] = true" \
 echo "✓ Plugin installed to $INSTALL_DIR"
 echo "✓ Skills installed to $SKILLS_DIR"
 echo "✓ Data directory created at $DATA_DIR"
+echo "✓ Hooks registered in settings.json"
 echo "✓ Registered in installed_plugins.json"
 echo "✓ Enabled in settings.json"
 echo ""
