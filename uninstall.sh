@@ -6,7 +6,6 @@ set -euo pipefail
 
 PLUGIN_NAME="auto-skill"
 INSTALL_DIR="$HOME/.claude/plugins/$PLUGIN_NAME"
-SKILLS_DIR="$HOME/.claude/skills"
 SETTINGS="$HOME/.claude/settings.json"
 INSTALLED="$HOME/.claude/plugins/installed_plugins.json"
 
@@ -18,16 +17,9 @@ command -v jq &>/dev/null || { echo "Error: jq not found"; exit 1; }
 
 # --- Remove from settings.json ---
 if [ -f "$SETTINGS" ]; then
-  jq --arg dir "$INSTALL_DIR" --arg name "${PLUGIN_NAME}@local" '
-    del(.enabledPlugins[$name]) |
-    if .hooks then
-      .hooks |= with_entries(
-        .value |= map(select(.hooks | map(.command | contains($dir)) | any | not))
-      ) |
-      .hooks |= with_entries(select(.value | length > 0)) |
-      if (.hooks == {}) then del(.hooks) else . end
-    else . end
-  ' "$SETTINGS" > "$SETTINGS.tmp" && mv "$SETTINGS.tmp" "$SETTINGS"
+  jq --arg name "${PLUGIN_NAME}@local" \
+     'del(.enabledPlugins[$name])' \
+     "$SETTINGS" > "$SETTINGS.tmp" && mv "$SETTINGS.tmp" "$SETTINGS"
   echo "✓ Removed from settings.json"
 fi
 
@@ -36,17 +28,6 @@ if [ -f "$INSTALLED" ]; then
   jq "del(.plugins[\"${PLUGIN_NAME}@local\"])" \
      "$INSTALLED" > "$INSTALLED.tmp" && mv "$INSTALLED.tmp" "$INSTALLED"
   echo "✓ Removed from installed_plugins.json"
-fi
-
-# --- Remove skills from ~/.claude/skills ---
-if [ -d "$INSTALL_DIR/skills" ]; then
-  for skill_dir in "$INSTALL_DIR/skills"/*/; do
-    skill_name="$(basename "$skill_dir")"
-    if [ -d "$SKILLS_DIR/$skill_name" ]; then
-      rm -rf "$SKILLS_DIR/$skill_name"
-      echo "✓ Removed skill: $skill_name"
-    fi
-  done
 fi
 
 # --- Remove plugin directory ---

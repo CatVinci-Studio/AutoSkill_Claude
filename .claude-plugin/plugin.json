@@ -1,5 +1,6 @@
 {
   "name": "auto-skill",
   "version": "1.0.0",
-  "description": "Automatically capture skill usage and optimize or create skills based on behavior patterns"
+  "description": "Automatically capture skill usage and optimize or create skills based on behavior patterns",
+  "author": { "name": "CatVinci-Studio" }
 }
