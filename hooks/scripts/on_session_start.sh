@@ -32,7 +32,7 @@ if [ "$optimize_count" -ge "$threshold_optimize" ] || \
   cmd=$(printf '%s or ' "${cmds[@]}" | sed 's/ or $//')
 
   jq -n --arg m "auto-optimize-skills: ${msg}. Run ${cmd} when ready." \
-    '{"systemMessage": $m}'
+    '{"hookSpecificOutput": {"hookEventName": "SessionStart", "additionalContext": $m}}'
 fi
 
 exit 0
